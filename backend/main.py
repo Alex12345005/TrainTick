@@ -4,6 +4,9 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 from .database import SessionLocal, engine
 from .auth import *
+from backend import auth
+
+from backend import database
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -39,11 +42,20 @@ def get_db():
 
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    # Hier Logik zum Erstellen eines Benutzers einfügen
-    pass
+    db_user = db.query(models.User).filter(models.User.username == user.username).first()
+    if db_user:
+        raise HTTPException(status_code=400, detail="Username already registered")
+    hashed_password = auth.get_password_hash(user.password)
+    db_user = models.User(username=user.username, hashed_password=hashed_password)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
 
-@app.get("/users/", response_model=list[schemas.User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    # Logik zum Lesen von Benutzerdaten
-    pass
+@app.get("/users/{user_id}", response_model=schemas.User)
+def get_user(user_id: int, db: Session = Depends(database.get_db)):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="Benutzer nicht gefunden")
+    return db_user
 
