@@ -158,3 +158,5 @@ public/
 *.njsproj
 *.sln
 *.sw?
+
+TrainTicket.db
