@@ -4,6 +4,8 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from typing import Optional
 from . import models
+from sqlalchemy.orm import Session
+from .database import SessionLocal
 
 SECRET_KEY = "ein_sehr_geheimes_schlüssel"
 ALGORITHM = "HS256"

@@ -9,6 +9,10 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+@app.get("/")
+def read_root():
+    return {"message": "Willkommen zur FastAPI Anwendung!"}
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @app.post("/token")
@@ -26,7 +30,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
-# Dependency
 def get_db():
     db = SessionLocal()
     try:
@@ -44,4 +47,3 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     # Logik zum Lesen von Benutzerdaten
     pass
 
-# Fügen Sie weitere Routen für Buchungen, Fahrpläne usw. hinzu

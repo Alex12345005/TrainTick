@@ -20,7 +20,7 @@ class BookingInDB(BookingBase):
     user_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UserCreate(UserBase):
     password: str
@@ -30,7 +30,7 @@ class UserInDB(UserBase):
     hashed_password: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class User(UserInDB):
     bookings: List[BookingInDB] = []

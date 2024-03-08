@@ -9,7 +9,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     hashed_password = Column(String)
-    # Relation zu Buchungen
+
     bookings = relationship("Booking", back_populates="owner")
 
 class Booking(Base):
@@ -22,5 +22,5 @@ class Booking(Base):
     seats = Column(Integer)
     source = Column(String)
     destination = Column(String)
-    # Beziehung zum Benutzer
+
     owner = relationship("User", back_populates="bookings")
