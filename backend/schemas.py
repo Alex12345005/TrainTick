@@ -35,3 +35,6 @@ class UserInDB(UserBase):
 class User(UserInDB):
     bookings: List[BookingInDB] = []
 
+class Login(BaseModel):
+    username: str
+    password: str

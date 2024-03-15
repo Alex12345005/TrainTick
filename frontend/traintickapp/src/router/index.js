@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import LoginView from '../components/LoginView.vue';
+import LoginView from '../views/LoginView.vue';
 
 const routes = [
   {
@@ -10,7 +10,7 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Home',
+    name: 'HomeView',
     component: HomeView,
     meta: { requiresAuth: true }, // Markiere diese Route als geschützt
   },

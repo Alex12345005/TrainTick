@@ -7,6 +7,7 @@ from .auth import *
 from backend import auth
 from fastapi.middleware.cors import CORSMiddleware
 from backend import database
+from .schemas import Login
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -39,7 +40,7 @@ def read_root():
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @app.post("/token")
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+async def login_for_access_token(form_data: Login, db: Session = Depends(get_db)):
     user = authenticate_user(db, form_data.username, form_data.password)       
     if not user:
         raise HTTPException(
